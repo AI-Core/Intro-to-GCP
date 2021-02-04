@@ -23,6 +23,25 @@ print(samples)
 import numpy as np
 import matplotlib.pyplot as plt
 
-samples = np.squeeze(samples)
+init_op = tf.initialize_all_variables()
+
+#run the graph
+with tf.Session() as sess:
+    sess.run(init_op) #execute init_op
+    #print the random values that we sample
+    img = sess.run(samples)
+img = np.squeeze(img)
 plt.imshow(img)
 plt.show()
+
+# %%
+from PIL import Image
+from time import time 
+
+print(img.shape)
+
+rescaled = (255.0 / img.max() * (img - img.min())).astype(np.uint8)
+
+im = Image.fromarray(rescaled)
+im.save(f'images/{time()}.png')
+# %%
